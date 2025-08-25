@@ -6,9 +6,9 @@ Can't decide on a movie to watch? Let Watch Next Roulette pick for you!
 
 Watch Next Roulette solves the endless browsing problem by instantly suggesting random movies from your streaming services - only content that's FREE with your subscriptions (no rental fees!).
 
-## 🚀 [Live Demo](https://watchnextroulette.com)
+## [Live Demo](https://watchnextroulette.com)
 
-## ✨ Features
+## Features
 
 - **Multi-Service Support** - Netflix, Hulu, Prime Video, Disney+, Apple TV+, HBO Max
 - **Advanced Filtering** - Genre, decade, language, and rating filters
@@ -18,14 +18,14 @@ Watch Next Roulette solves the endless browsing problem by instantly suggesting 
 - **Mobile Responsive** - Works perfectly on phone, tablet, and desktop
 - **Netflix-Inspired Design** - Sleek dark theme with red accents
 
-## 🎯 How It Works
+## How It Works
 
 1. **Select Your Streaming Services** - Check which platforms you have
 2. **Set Your Filters** (Optional) - Choose genre, decade, language, or rating
 3. **Click "Spin"** - Get an instant random suggestion
 4. **Discover Something New** - Real movie data with posters, ratings, and descriptions
 
-## 🛠️ Technical Features
+## Technical Features
 
 - **Real-Time Data** - Powered by Streaming Availability API
 - **Enhanced Randomization** - Different search algorithms prevent repetitive results
@@ -34,31 +34,31 @@ Watch Next Roulette solves the endless browsing problem by instantly suggesting 
 - **Multiple Languages** - Supports 12+ languages including English, Spanish, Korean, Japanese
 - **Responsive Design** - CSS Grid and Flexbox for all screen sizes
 
-## 🎨 Design Philosophy
+## Design Philosophy
 
 Inspired by Netflix's interface but focused on **discovery over browsing**. The goal is to eliminate decision paralysis and help users find great content they might otherwise miss.
 
-## 💡 The Problem This Solves
+## The Problem This Solves
 
 **Before:** Spend 15-30 minutes scrolling through Netflix, Hulu, etc., often giving up and rewatching something familiar.
 
 **After:** Get a curated suggestion in 2 seconds based on your exact preferences and available subscriptions.
 
-## 🔧 Technologies Used
+## Technologies Used
 
 - **Frontend:** HTML5, CSS3 (Grid/Flexbox), Vanilla JavaScript
 - **API:** Streaming Availability API via RapidAPI
 - **Design:** Netflix-inspired UI/UX with CSS animations
 - **Hosting:** GitHub Pages with custom domain
 
-## 📊 API Integration
+## API Integration
 
 - Fetches real-time streaming availability across 60+ countries
 - Filters for subscription-only content (no rentals)
 - Supports 25+ streaming services globally
 - Includes movie posters, ratings, cast, and deep links
 
-## 🎲 Randomization Algorithm
+## Randomization Algorithm
 
 The app uses a sophisticated randomization system:
 
@@ -67,7 +67,7 @@ The app uses a sophisticated randomization system:
 3. **Smart Filtering** - Adult-focused content with quality thresholds
 4. **Fallback Logic** - Graceful handling when filter combinations return few results
 
-## 🌟 Future Features
+## Future Features
 
 - Watchlist functionality
 - Friend recommendations
@@ -76,7 +76,7 @@ The app uses a sophisticated randomization system:
 - User rating system
 
 
-## 🤝 Contributing
+## Contributing
 
 While this is a personal project, I'm open to suggestions and improvements! Feel free to open issues or submit pull requests.
 
