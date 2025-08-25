@@ -6,12 +6,9 @@ const API_BASE_URL = 'https://streaming-availability.p.rapidapi.com';
 let recentlyShownMovies = [];
 const MAX_RECENT_MOVIES = 25;
 
-// Different sorting options for API variety (removed release_year - causes 400 errors)
+// Use consistent sorting to get reliable results
 const sortingOptions = [
-    'popularity_1year',
-    'popularity_1month', 
-    'popularity_1week',
-    'rating'
+    'popularity_1year'  // Use only one reliable sorting method
 ];
 
 // DOM Elements
@@ -181,8 +178,12 @@ async function searchMovies(services, filters) {
         
         // If we filtered out too many, fall back to full list but still try to avoid most recent ones
         if (nonRecentMovies.length === 0) {
-            console.log('All movies were recent, falling back to full list');
-            // Keep the most recent 5, but allow older ones
+            console.log('No non-recent movies available');
+            // If no movies pass filters, inform user rather than showing wrong content
+            if (filteredShows.length === 0) {
+                return []; // Return empty array - will trigger "no movies found" message
+            }
+            // If movies exist but all were recent, allow the most recent 5 but keep others
             const veryRecentMovies = recentlyShownMovies.slice(0, 5);
             return filteredShows.filter(movie => !veryRecentMovies.includes(movie.id));
         }
