@@ -155,9 +155,9 @@ async function searchMovies(services, filters) {
         // Filter by rating if specified
         let filteredShows = data.shows || [];
         if (filters.rating) {
-            const minRating = parseInt(filters.rating) / 10; // Convert 90 to 9.0, 80 to 8.0, 70 to 7.0
+            const minRating = parseInt(filters.rating); // Use rating as-is (70, 80, 90)
             filteredShows = filteredShows.filter(show => {
-                const rating = show.rating || 0; // API rating (like 7.5)
+                const rating = show.rating || 0; // API rating (like 85 for whatever scale they use)
                 return rating >= minRating;
             });
             console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
@@ -219,7 +219,8 @@ function formatMovieData(show) {
         rating: show.rating ? `${(show.rating / 10).toFixed(1)}/10 IMDB` : 'No Rating',
         description: show.overview || 'No description available.',
         poster: posterUrl,
-        services: availableServices
+        services: availableServices,
+        id: show.id // Make sure we include the ID for memory system
     };
 }
 
@@ -276,10 +277,11 @@ async function spinForMovie() {
             const randomMovie = movies[Math.floor(Math.random() * movies.length)];
             const formattedMovie = formatMovieData(randomMovie);
             
-            // Add to recently shown list to prevent repeats
+            // Add to recently shown list to prevent repeats (use original movie object ID)
             addToRecentlyShown(randomMovie.id);
             
-            console.log('Selected movie:', formattedMovie);
+            console.log('Selected movie from API:', randomMovie);
+            console.log('Formatted for display:', formattedMovie);
             displayMovie(formattedMovie);
         }
     } catch (error) {
