@@ -155,32 +155,25 @@ async function searchMovies(services, filters) {
         // Filter by rating if specified
         let filteredShows = data.shows || [];
         if (filters.rating) {
-            const minRating = parseInt(filters.rating); // Use rating as-is from dropdown (70, 80, 90)
+            const minRating = parseInt(filters.rating) / 10; // Convert 90 to 9.0, 80 to 8.0, 70 to 7.0
             filteredShows = filteredShows.filter(show => {
-                const rating = show.rating || 0; // API rating (like 75 for 7.5/10)
+                const rating = show.rating || 0; // API rating (like 7.5)
                 return rating >= minRating;
             });
             console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
         }
 
-        // Filter out kids/family content for mature audience
+        // Filter out kids/family content for mature audience (but keep quality family films)
         filteredShows = filteredShows.filter(show => {
-            const genres = show.genres || [];
-            const genreNames = genres.map(g => g.name ? g.name.toLowerCase() : '');
             const title = (show.title || '').toLowerCase();
             const contentRating = show.rating || 0;
             
-            // Filter out obviously kid-focused titles and low-quality content
-            const kidsKeywords = ['kids', 'children', 'baby', 'toddler', 'preschool', 'sesame street', 'dora'];
+            // Only filter out obviously kid-focused content
+            const kidsKeywords = ['kids', 'children', 'baby', 'toddler', 'preschool', 'sesame street', 'dora', 'barney'];
             const hasKidsKeywords = kidsKeywords.some(keyword => title.includes(keyword));
             
-            // Keep content if:
-            // 1. No obvious kids keywords in title AND
-            // 2. Has decent rating (5.0+) which indicates adult appeal OR it's highly rated overall (7.0+)
-            const hasAdultAppeal = contentRating >= 5.0 || contentRating >= 7.0;
-            
-            // Keep it if it doesn't have obvious kids keywords and has some adult appeal
-            return !hasKidsKeywords && hasAdultAppeal;
+            // Keep content unless it has obvious kids keywords AND low rating
+            return !(hasKidsKeywords && contentRating < 6.0);
         });
 
         console.log(`Filtered out kids content. ${filteredShows.length} adult-oriented movies remaining.`);
