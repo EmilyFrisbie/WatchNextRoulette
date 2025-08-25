@@ -147,16 +147,41 @@ async function searchMovies(services, filters) {
 
         const data = await response.json();
         console.log('API Response:', data);
+        console.log(`Initial API results: ${data.shows ? data.shows.length : 0} movies`);
+        
+        // Log first few movies with their ratings
+        if (data.shows && data.shows.length > 0) {
+            console.log('First few movies from API:');
+            data.shows.slice(0, 5).forEach((show, index) => {
+                console.log(`${index}: ${show.title} - Rating: ${show.rating}`);
+            });
+        }
 
         // Filter by rating if specified
         let filteredShows = data.shows || [];
+        console.log(`Starting with ${filteredShows.length} shows before rating filter`);
+        
         if (filters.rating) {
             const minRating = parseInt(filters.rating); // Use rating as-is (70, 80, 90)
+            console.log(`Filtering for ratings >= ${minRating}`);
+            
             filteredShows = filteredShows.filter(show => {
                 const rating = show.rating || 0; // API rating (like 85 for whatever scale they use)
-                return rating >= minRating;
+                const passes = rating >= minRating;
+                if (!passes && rating > 85) {
+                    console.log(`${show.title} has rating ${rating}, filtered out by ${minRating} threshold`);
+                }
+                return passes;
             });
             console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
+            
+            // Log what passed the rating filter
+            if (filteredShows.length > 0) {
+                console.log('Movies that passed rating filter:');
+                filteredShows.slice(0, 5).forEach((show, index) => {
+                    console.log(`${index}: ${show.title} - Rating: ${show.rating}`);
+                });
+            }
         }
 
         // Filter out kids/family content for mature audience (very targeted)
