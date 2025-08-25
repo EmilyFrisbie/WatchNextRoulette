@@ -2,7 +2,7 @@
 Can't decide on a movie to watch? Let Watch Next Roulette pick for you!
 # 🎬 Watch Next Roulette
 
-**Never spend 20 minutes scrolling Netflix again.**
+**Never spend 20 minutes scrolling Netflix again!**
 
 Watch Next Roulette solves the endless browsing problem by instantly suggesting random movies from your streaming services - only content that's FREE with your subscriptions (no rental fees!).
 
