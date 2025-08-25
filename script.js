@@ -38,7 +38,9 @@ const serviceMapping = {
     'prime': 'prime',
     'disney': 'disney',
     'hbo': 'hbo',
-    'apple': 'apple'
+    'apple': 'apple',
+    'paramount': 'paramount',
+    'peacock': 'peacock'
 };
 
 // Genre mapping for API
