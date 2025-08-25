@@ -6,13 +6,12 @@ const API_BASE_URL = 'https://streaming-availability.p.rapidapi.com';
 let recentlyShownMovies = [];
 const MAX_RECENT_MOVIES = 25;
 
-// Different sorting options for API variety
+// Different sorting options for API variety (removed release_year - causes 400 errors)
 const sortingOptions = [
     'popularity_1year',
     'popularity_1month', 
     'popularity_1week',
-    'rating',
-    'release_year'
+    'rating'
 ];
 
 // DOM Elements
@@ -163,17 +162,16 @@ async function searchMovies(services, filters) {
             console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
         }
 
-        // Filter out kids/family content for mature audience (but keep quality family films)
+        // Filter out kids/family content for mature audience (very targeted)
         filteredShows = filteredShows.filter(show => {
             const title = (show.title || '').toLowerCase();
-            const contentRating = show.rating || 0;
             
-            // Only filter out obviously kid-focused content
-            const kidsKeywords = ['kids', 'children', 'baby', 'toddler', 'preschool', 'sesame street', 'dora', 'barney'];
+            // Only filter out very obvious kids content
+            const kidsKeywords = ['baby', 'toddler', 'preschool', 'sesame street', 'dora', 'barney', 'teletubbies', 'peppa pig'];
             const hasKidsKeywords = kidsKeywords.some(keyword => title.includes(keyword));
             
-            // Keep content unless it has obvious kids keywords AND low rating
-            return !(hasKidsKeywords && contentRating < 6.0);
+            // Keep everything except obvious baby/toddler content
+            return !hasKidsKeywords;
         });
 
         console.log(`Filtered out kids content. ${filteredShows.length} adult-oriented movies remaining.`);
@@ -274,13 +272,16 @@ async function spinForMovie() {
             alert('No movies found matching your criteria. Try adjusting your filters or selecting different streaming services!');
         } else {
             // Get a random movie from the results
-            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            console.log(`Choosing from ${movies.length} available movies after all filtering`);
+            const randomIndex = Math.floor(Math.random() * movies.length);
+            const randomMovie = movies[randomIndex];
             const formattedMovie = formatMovieData(randomMovie);
             
             // Add to recently shown list to prevent repeats (use original movie object ID)
             addToRecentlyShown(randomMovie.id);
             
-            console.log('Selected movie from API:', randomMovie);
+            console.log(`Selected index ${randomIndex} of ${movies.length} options`);
+            console.log('Selected movie from API:', randomMovie.title);
             console.log('Formatted for display:', formattedMovie);
             displayMovie(formattedMovie);
         }
