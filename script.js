@@ -153,11 +153,12 @@ async function searchMovies(services, filters) {
         // Filter by rating if specified
         let filteredShows = data.shows || [];
         if (filters.rating) {
-            const minRating = parseInt(filters.rating) / 10; // Convert 70 to 7.0
+            const minRating = parseInt(filters.rating); // Use rating as-is from dropdown (70, 80, 90)
             filteredShows = filteredShows.filter(show => {
-                const rating = show.rating || 0;
+                const rating = show.rating || 0; // API rating (like 75 for 7.5/10)
                 return rating >= minRating;
             });
+            console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
         }
 
         // Filter out kids/family content for mature audience
@@ -220,7 +221,7 @@ function formatMovieData(show) {
     return {
         title: show.title || 'Unknown Title',
         year: show.releaseYear ? show.releaseYear.toString() : 'Unknown Year',
-        rating: show.rating ? `${show.rating}/10 IMDB` : 'No Rating',
+        rating: show.rating ? `${(show.rating / 10).toFixed(1)}/10 IMDB` : 'No Rating',
         description: show.overview || 'No description available.',
         poster: posterUrl,
         services: availableServices
