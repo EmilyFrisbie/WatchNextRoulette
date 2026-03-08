@@ -15,7 +15,6 @@ const sortingOptions = [
 const spinButton = document.getElementById('spinButton');
 const movieResult = document.getElementById('movieResult');
 const genreFilter = document.getElementById('genreFilter');
-const ratingFilter = document.getElementById('ratingFilter');
 const decadeFilter = document.getElementById('decadeFilter');
 const languageFilter = document.getElementById('languageFilter');
 
@@ -23,7 +22,6 @@ const languageFilter = document.getElementById('languageFilter');
 const moviePoster = document.getElementById('moviePoster');
 const movieTitle = document.getElementById('movieTitle');
 const movieYear = document.getElementById('movieYear');
-const movieRating = document.getElementById('movieRating');
 const movieDescription = document.getElementById('movieDescription');
 const streamingServices = document.getElementById('streamingServices');
 
@@ -90,7 +88,6 @@ function getSelectedServices() {
 function getFilters() {
     return {
         genre: genreMapping[genreFilter.value] || '',
-        rating: ratingFilter.value || '',
         decade: decadeFilter.value || '',
         language: languageFilter.value || ''
     };
@@ -157,32 +154,9 @@ async function searchMovies(services, filters) {
             });
         }
 
-        // Filter by rating if specified
+      // Start with all shows from API
         let filteredShows = data.shows || [];
-        console.log(`Starting with ${filteredShows.length} shows before rating filter`);
-        
-        if (filters.rating) {
-            const minRating = parseInt(filters.rating); // Use rating as-is (70, 80, 90)
-            console.log(`Filtering for ratings >= ${minRating}`);
-            
-            filteredShows = filteredShows.filter(show => {
-                const rating = show.rating || 0; // API rating (like 85 for whatever scale they use)
-                const passes = rating >= minRating;
-                if (!passes && rating > 85) {
-                    console.log(`${show.title} has rating ${rating}, filtered out by ${minRating} threshold`);
-                }
-                return passes;
-            });
-            console.log(`Filtered by rating >= ${minRating}. ${filteredShows.length} movies remaining.`);
-            
-            // Log what passed the rating filter
-            if (filteredShows.length > 0) {
-                console.log('Movies that passed rating filter:');
-                filteredShows.slice(0, 5).forEach((show, index) => {
-                    console.log(`${index}: ${show.title} - Rating: ${show.rating}`);
-                });
-            }
-        }
+        console.log(`Starting with ${filteredShows.length} shows from API`);
 
         // Filter out kids/family content for mature audience (very targeted)
         filteredShows = filteredShows.filter(show => {
